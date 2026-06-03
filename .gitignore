@@ -1,8 +1,23 @@
+# Jest Configuration (Keep this file tracked)
 *.js
 !jest.config.js
-*.d.ts
+
+
+# Dependencies and Types
 node_modules
+*.d.ts
 
 # CDK asset staging directory
 .cdk.staging
 cdk.out
+outputs.json
+
+# Python Virtual Environments
+.venv/
+
+# Secrets, Certificates, and Keys
+*.pem
+*.key
+
+# OS-generated files
+.DS_Store
