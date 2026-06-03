@@ -52,7 +52,7 @@ Both paths converge on the same processing pipeline, which writes raw and proces
 | M2M Clients | HTTPS REST | Cognito Access Token (OAuth2 client credentials) | `POST /devices` |
 | IoT Devices | MQTT over TLS | X.509 Certificate | `devices/{deviceId}/telemetry` |
 
-## **1.2 Architecture Diagram** {#architecture-diagram}
+## **1.2 Architecture Diagram** 
 
 ```mermaid
 flowchart LR
