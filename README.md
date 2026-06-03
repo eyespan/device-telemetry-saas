@@ -52,7 +52,58 @@ Both paths converge on the same processing pipeline, which writes raw and proces
 | M2M Clients | HTTPS REST | Cognito Access Token (OAuth2 client credentials) | `POST /devices` |
 | IoT Devices | MQTT over TLS | X.509 Certificate | `devices/{deviceId}/telemetry` |
 
-### 1.2 Data Flow
+## **1.2 Architecture Diagram** {#architecture-diagram}
+
+```mermaid
+flowchart LR
+  U["Human / M2M Clients"] --> WAF["WAF"]
+  WAF --> APIGW["API Gateway"]
+  APIGW --> AUTH["Lambda Authorizer"]
+  AUTH --> API["ApiHandler Lambda"]
+  COG["Cognito User Pool"] --- AUTH
+
+  DEV["IoT Devices"] --> IOT["AWS IoT Core"]
+  IOT --> RULE["IoT Topic Rule"]
+  RULE --> IOTL["IotIngestHandler Lambda"]
+
+  API --> SQS["SQS ProcessingQueue"]
+  IOTL --> SQS
+  SQS --> PROC["SqsProcessor Lambda"]
+  PROC --> DDB["DynamoDB TelemetryTable"]
+  PROC --> TS["Timestream Metrics Table"]
+
+  API --> DDB
+  API --> TS
+  QUERY["QueryHandler Lambda"] --> TS
+  QUERY --> DDB
+
+  U --> CF["CloudFront"]
+  CF --> S3["S3 Dashboard Bucket"]
+
+  ALB["Application Load Balancer"] --> GRAF["Grafana on EC2"]
+
+  subgraph VPC["VPC - Private Subnets and Endpoints"]
+    API
+    IOTL
+    SQS
+    PROC
+    QUERY
+    DDB
+    TS
+    ALB
+    GRAF
+  end
+
+  EP["VPC Endpoints"] --- DDB
+  EP --- S3
+  EP --- SQS
+  EP --- TS
+  EP --- QUERY
+  EP --- LOGS["CloudWatch Logs"]
+  EP --- SSM["SSM / EC2 Messages"]
+```
+
+### 1.3 Data Flow
 
 ```text
 IoT Device (MQTT/X.509)
@@ -80,7 +131,7 @@ Visualisation
   +-- Grafana (EC2 private subnet + ALB)
 ```
 
-### 1.3 Networking
+### 1.4 Networking
 
 All compute runs inside a VPC with private isolated subnets. AWS service calls use VPC endpoints to eliminate NAT Gateway costs and remove the internet as a failure point.
 
@@ -94,7 +145,7 @@ All compute runs inside a VPC with private isolated subnets. AWS service calls u
 | CloudWatch Logs | Interface | Lambda log delivery |
 | SSM / SSM Messages / EC2 Messages | Interface | Session Manager access |
 
-### 1.4 Security Layers
+### 1.5 Security Layers
 
 | Layer | Control | Detail |
 |---|---|---|
