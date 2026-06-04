@@ -133,7 +133,7 @@ Visualisation
 
 ### 1.4 Networking
 
-All compute runs inside a VPC with private isolated subnets. AWS service calls use VPC endpoints to eliminate NAT Gateway costs and remove the internet as a failure point.
+All compute runs inside a VPC with private isolated subnets. AWS service calls use VPC endpoints to eliminate NAT Gateway costs and remove the internet as a failure point. NatGeway required to download Grafana binaries during EC2 provisioning - The NAT Gateway can be eliminated in production by baked Grafana ready AMI.
 
 | Endpoint | Type | Service |
 |---|---|---|
@@ -197,15 +197,13 @@ device-telemetry-saas/
 │   └── query/index.js                # GET /metrics Timestream query
 ├── frontend/
 │   └── index.html                    # Custom dashboard SPA
-├── grafana-artifacts/
-│   ├── grafana-11.1.0-1.x86_64.rpm   # Grafana installer
-│   └── plugins/                      # Timestream plugin
-├── scripts/
-│   ├── test-auth.sh                  # Auth test script
-│   ├── test-iot.py                   # IoT MQTT test
-│   ├── test-throttle.py              # Throttle test
-│   ├── deploy-frontend.sh            # Frontend deploy
-│   └── provision-grafana.py          # Grafana dashboard provisioner
+├── test
+|   └──scripts/
+│      ├── test-auth.sh                  # Auth test script
+│      ├── test-iot.py                   # IoT MQTT test
+│      ├── test-throttle.py              # Throttle test
+│      ├── deploy-frontend.sh            # Frontend deploy
+│      └── provision-grafana.py          # Grafana dashboard provisioner
 ├── package.json
 └── cdk.json
 ```
@@ -434,7 +432,7 @@ Grafana runs on a private EC2 instance behind an Application Load Balancer using
 
 ---
 
-## 9. Scaling Considerations
+## 9. Scaling and Security Considerations
 
 ### 9.1 Ingestion Layer
 
@@ -449,13 +447,21 @@ Grafana runs on a private EC2 instance behind an Application Load Balancer using
 - Timestream is suited to high-throughput metric ingestion.
 - Global deployments can use DynamoDB Global Tables and Route 53 latency routing.
 
-### 9.3 Multi-Tenancy
+### 9.3 Security Layer
+
+- Custom domain with ACM certificate on the Grafana ALB 
+- Change the listner form port 80 to 443 on the ALB
+- Configure DNS on your Domain provider to forward traffic to the ALB
+- Bake Grafana ready AMI and remove NAT Gateway completely
+- Use KMS encryption where appropirate.
+
+### 9.4 Multi-Tenancy
 
 - API Gateway usage plans can isolate quotas by customer.
 - WAF rate rules protect against noisy tenants.
 - Cognito resource servers can scope M2M tokens per client.
 
-### 9.4 Device Onboarding
+### 9.5 Device Onboarding
 
 - AWS IoT Fleet Provisioning for zero-touch certificate issuance.
 - IoT Device Defender for anomaly detection.
