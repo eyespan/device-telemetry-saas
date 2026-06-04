@@ -246,6 +246,50 @@ cdk deploy
 
 Deployment takes approximately 15–20 minutes.
 
+Note: to Fix the timestream endpoint discovery errors with in Processor and Query Handler lambdas (ERROR    ❌ Processing error: Error: The operation to discover endpoint failed. Please retry, or provide a custom endpoint and disable endpoint discovery to proceed.) ...You will need to find  and replace with the Lambnda environemtnal variable with actual endpoint DNS name values for:
+
+1. SqsProcessor Lambnda environemtnal variable : TIMESTREAM_ENDPOINT: `vpce-xxxxxxxxxx-yyyyyy.ingest-cell2.timestream.us-east-1.vpce.amazonaws.com`
+2. QueryHandler Lambnda environemtnal variable TIMESTREAM_QUERY_ENDPOINT: `vpce-0a2dac27ac81e7d27-rf06a0rx.query-cell2.timestream.us-east-1.vpce.amazonaws.com`
+
+you can find the dns names by running this command
+```
+aws ec2 describe-vpc-endpoints \
+    --region us-east-1 \
+    --filters "Name=service-name,Values=com.amazonaws.us-east-1.timestream.query-cell2,com.amazonaws.us-east-1.timestream.ingest-cell2" \
+    --query "VpcEndpoints[*].{ID:VpcEndpointId, Service:ServiceName, DNS:DnsEntries[*].DnsName}" \
+    --output json
+
+[
+    {
+        "ID": "vpce-0a2dac27ac81e7d27",
+        "Service": "com.amazonaws.us-east-1.timestream.query-cell2",
+        "DNS": [
+            "vpce-0a2dac27ac81e7d27-rf06a0rx.query-cell2.timestream.us-east-1.vpce.amazonaws.com",
+            "vpce-0a2dac27ac81e7d27-rf06a0rx-us-east-1a.query-cell2.timestream.us-east-1.vpce.amazonaws.com",
+            "vpce-0a2dac27ac81e7d27-rf06a0rx-us-east-1b.query-cell2.timestream.us-east-1.vpce.amazonaws.com"
+        ]
+    },
+    {
+        "ID": "vpce-08dd15fdff2dc37a9",
+        "Service": "com.amazonaws.us-east-1.timestream.ingest-cell2",
+        "DNS": [
+            "vpce-08dd15fdff2dc37a9-zopl2j67.ingest-cell2.timestream.us-east-1.vpce.amazonaws.com",
+            "vpce-08dd15fdff2dc37a9-zopl2j67-us-east-1b.ingest-cell2.timestream.us-east-1.vpce.amazonaws.com",
+            "vpce-08dd15fdff2dc37a9-zopl2j67-us-east-1a.ingest-cell2.timestream.us-east-1.vpce.amazonaws.com"
+        ]
+    }
+]
+
+```
+
+
+You will then need to run Synthesise and Deploy after making the above changes
+
+```bash
+cdk synth
+cdk deploy
+```
+
 ### Step 6: Note Stack Outputs
 
 | Output Key | Description |
@@ -265,9 +309,27 @@ Deployment takes approximately 15–20 minutes.
 
 ### Step 7: Deploy Frontend Dashboard
 
+Edit frontend/index.html and change the following parameters. You can find this parametes from the cdk stack outputs when cdk deploy completes tje deployment 
+
+```
+const CONFIG = {
+  apiBase:        'https://6at4q1i7og.execute-api.us-east-1.amazonaws.com/prod',
+  userPoolId:     'us-east-1_aQVELxbA5',
+  clientId:       '3jd9jabnvu0t2mmjoeuhmrgbun',
+  cognitoDomain:  'https://telemetry-demo-eyespan.auth.us-east-1.amazoncognito.com',
+  region:         'us-east-1',
+
+  // Alert thresholds
+  tempAlert:      24,   // °C
+  humidityAlert:  50,   // %
+  offlineAfterMs: 5 * 60 * 1000,  // 5 minutes
+};
+```
+
+
 ```bash
-chmod +x scripts/deploy-frontend.sh
-./scripts/deploy-frontend.sh
+chmod +x frontend/deploy-frontend.sh
+./forntend/deploy-frontend.sh
 ```
 
 This script:
@@ -296,6 +358,10 @@ Grafana is accessible via the ALB URL on port 80.
 
 This verifies human user auth, M2M auth, and unauthenticated rejection.
 
+Edit scripts/test-auth.sh and change:
+1. API_URL="https://6at4q1i7og.execute-api.us-east-1.amazonaws.com/prod/devices"
+
+
 ```bash
 chmod +x scripts/test-auth.sh
 ./scripts/test-auth.sh
@@ -317,6 +383,11 @@ Expected output:
 ### 5.2 IoT Core MQTT Test
 
 This simulates a physical device publishing telemetry via MQTT over TLS using X.509 certificate authentication.
+
+Edit cripts/test-iot.py and make the following changes
+1. CERT_PEM & PRIVATE_KEY  values ....you can find this form cdk stack outputs when cdk deployment is completed!
+2. '--table-name', 'DeviceTelemetrySaasStack-TelemetryTableXXXXXXXXXXXX',
+
 
 ```bash
 source .venv/bin/activate
