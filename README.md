@@ -249,7 +249,7 @@ Deployment takes approximately 15–20 minutes.
 Note: to Fix the timestream endpoint discovery errors with in Processor and Query Handler lambdas (ERROR    ❌ Processing error: Error: The operation to discover endpoint failed. Please retry, or provide a custom endpoint and disable endpoint discovery to proceed.) ...You will need to find  and replace with the Lambnda environemtnal variable with actual endpoint DNS name values for:
 
 1. SqsProcessor Lambnda environemtnal variable : TIMESTREAM_ENDPOINT: `vpce-xxxxxxxxxx-yyyyyy.ingest-cell2.timestream.us-east-1.vpce.amazonaws.com`
-2. QueryHandler Lambnda environemtnal variable TIMESTREAM_QUERY_ENDPOINT: `vpce-0a2dac27ac81e7d27-rf06a0rx.query-cell2.timestream.us-east-1.vpce.amazonaws.com`
+2. QueryHandler Lambnda environemtnal variable TIMESTREAM_QUERY_ENDPOINT: `vpce-xxxxxxxxxxxxxx-rf06a0rx.query-cell2.timestream.us-east-1.vpce.amazonaws.com`
 
 you can find the dns names by running this command
 ```
@@ -261,21 +261,21 @@ aws ec2 describe-vpc-endpoints \
 
 [
     {
-        "ID": "vpce-0a2dac27ac81e7d27",
+        "ID": "vpce-xxxxxxxxxxxxxx",
         "Service": "com.amazonaws.us-east-1.timestream.query-cell2",
         "DNS": [
-            "vpce-0a2dac27ac81e7d27-rf06a0rx.query-cell2.timestream.us-east-1.vpce.amazonaws.com",
-            "vpce-0a2dac27ac81e7d27-rf06a0rx-us-east-1a.query-cell2.timestream.us-east-1.vpce.amazonaws.com",
-            "vpce-0a2dac27ac81e7d27-rf06a0rx-us-east-1b.query-cell2.timestream.us-east-1.vpce.amazonaws.com"
+            "vpce-xxxxxxxxxxxxxx-rf06a0rx.query-cell2.timestream.us-east-1.vpce.amazonaws.com",
+            "vpce-xxxxxxxxxxxxxx-rf06a0rx-us-east-1a.query-cell2.timestream.us-east-1.vpce.amazonaws.com",
+            "vpce-xxxxxxxxxxxxxx-rf06a0rx-us-east-1b.query-cell2.timestream.us-east-1.vpce.amazonaws.com"
         ]
     },
     {
-        "ID": "vpce-08dd15fdff2dc37a9",
+        "ID": "vpce-zzzzzzzzzzzzzzzzzz",
         "Service": "com.amazonaws.us-east-1.timestream.ingest-cell2",
         "DNS": [
-            "vpce-08dd15fdff2dc37a9-zopl2j67.ingest-cell2.timestream.us-east-1.vpce.amazonaws.com",
-            "vpce-08dd15fdff2dc37a9-zopl2j67-us-east-1b.ingest-cell2.timestream.us-east-1.vpce.amazonaws.com",
-            "vpce-08dd15fdff2dc37a9-zopl2j67-us-east-1a.ingest-cell2.timestream.us-east-1.vpce.amazonaws.com"
+            "vpce-zzzzzzzzzzzzzzzzzz-zopl2j67.ingest-cell2.timestream.us-east-1.vpce.amazonaws.com",
+            "vpce-zzzzzzzzzzzzzzzzzz-zopl2j67-us-east-1b.ingest-cell2.timestream.us-east-1.vpce.amazonaws.com",
+            "vpce-zzzzzzzzzzzzzzzzzz-zopl2j67-us-east-1a.ingest-cell2.timestream.us-east-1.vpce.amazonaws.com"
         ]
     }
 ]
@@ -313,9 +313,9 @@ Edit frontend/index.html and change the following parameters. You can find this 
 
 ```
 const CONFIG = {
-  apiBase:        'https://6at4q1i7og.execute-api.us-east-1.amazonaws.com/prod',
-  userPoolId:     'us-east-1_aQVELxbA5',
-  clientId:       '3jd9jabnvu0t2mmjoeuhmrgbun',
+  apiBase:        'https://xxxxxxxx.execute-api.us-east-1.amazonaws.com/prod',
+  userPoolId:     'us-east-1_abcdefG',
+  clientId:       'xyzbrG0t2mmjoeuhmrgbun',
   cognitoDomain:  'https://telemetry-demo-eyespan.auth.us-east-1.amazoncognito.com',
   region:         'us-east-1',
 
@@ -359,7 +359,7 @@ Grafana is accessible via the ALB URL on port 80.
 This verifies human user auth, M2M auth, and unauthenticated rejection.
 
 Edit scripts/test-auth.sh and change:
-1. API_URL="https://6at4q1i7og.execute-api.us-east-1.amazonaws.com/prod/devices"
+1. API_URL="https://xxxxxxxx.execute-api.us-east-1.amazonaws.com/prod/devices"
 
 
 ```bash
