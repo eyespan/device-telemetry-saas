@@ -404,7 +404,7 @@ This is a single-page React application served via CloudFront and authenticated 
 | Device Registry | Table with last-seen status and metric chips |
 | Alert Log | CRITICAL/WARN entries for threshold breaches |
 
-![Alt Custom Dashboard](assets/Custom Dashboard.jpg)
+![Alt Custom Dashboard](assets/custom-ui-telemetry.jpg)
 
 ### 7.2 Grafana Dashboard
 
