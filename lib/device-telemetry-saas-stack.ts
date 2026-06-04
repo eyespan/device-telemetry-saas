@@ -882,7 +882,7 @@ alb.addListener('HttpListener', {
 
 // ====================== OUTPUTS ======================
 new cdk.CfnOutput(this, 'GrafanaAlbUrl', {
-  value: `https://${alb.loadBalancerDnsName}`,
+  value: `http://${alb.loadBalancerDnsName}`,
   description: 'Grafana ALB URL',
 });
 
