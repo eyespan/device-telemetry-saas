@@ -246,7 +246,7 @@ cdk deploy
 
 Deployment takes approximately 15–20 minutes.
 
-Note: to Fix the timestream endpoint discovery errors with in Processor and Query Handler lambdas (ERROR    ❌ Processing error: Error: The operation to discover endpoint failed. Please retry, or provide a custom endpoint and disable endpoint discovery to proceed.) ...You will need to find  and replace with the Lambnda environemtnal variable with actual endpoint DNS name values for:
+Note: The To Fix the timestream endpoint discovery errors with in the Processor and QueryHandler lambdas (ERROR    ❌ Processing error: Error: The operation to discover endpoint failed. Please retry, or provide a custom endpoint and disable endpoint discovery to proceed.) ...You will need to find  and replace  the Lambnda environemtnal variable with actual endpoint DNS name values:
 
 1. SqsProcessor Lambnda environemtnal variable : TIMESTREAM_ENDPOINT: `vpce-xxxxxxxxxx-yyyyyy.ingest-cell2.timestream.us-east-1.vpce.amazonaws.com`
 2. QueryHandler Lambnda environemtnal variable TIMESTREAM_QUERY_ENDPOINT: `vpce-xxxxxxxxxxxxxx-rf06a0rx.query-cell2.timestream.us-east-1.vpce.amazonaws.com`
@@ -282,6 +282,7 @@ aws ec2 describe-vpc-endpoints \
 
 ```
 
+This is a defect with aws-sdk/client-timestream-write
 
 You will then need to run Synthesise and Deploy after making the above changes
 
