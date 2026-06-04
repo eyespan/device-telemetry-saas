@@ -421,6 +421,10 @@ Grafana runs on a private EC2 instance behind an Application Load Balancer using
 
 ---
 
+![Alt Grafana Dashboard](assets/grafana-dash-1.jpg)
+
+
+
 ## 8. Alert Thresholds
 
 | Metric | Warning | Critical |
