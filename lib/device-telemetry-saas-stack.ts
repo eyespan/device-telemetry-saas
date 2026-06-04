@@ -194,7 +194,7 @@ export class DeviceTelemetrySaasStack extends cdk.Stack {
         TABLE_NAME: telemetryTable.tableName,  // ← add this
         TIMESTREAM_DB: 'telemetry_ts',        // ← add
         TIMESTREAM_TABLE: 'metrics',          // ← add
-        TIMESTREAM_ENDPOINT: `vpce-07974d711b4ebcb64-o05cj6z4.ingest-cell2.timestream.us-east-1.vpce.amazonaws.com`, // ← add
+        TIMESTREAM_ENDPOINT: `vpce-08dd15fdff2dc37a9-zopl2j67.ingest-cell2.timestream.us-east-1.vpce.amazonaws.com`, // ← add
         NODE_ENV: 'production',
       },
     });
@@ -615,7 +615,7 @@ export class DeviceTelemetrySaasStack extends cdk.Stack {
       // memorySize: 256,
       environment: {
         NODE_ENV: 'production',
-        TIMESTREAM_QUERY_ENDPOINT: `vpce-0a0a51401d7d2e43a-735mhmzl.query-cell2.timestream.us-east-1.vpce.amazonaws.com`
+        TIMESTREAM_QUERY_ENDPOINT: `vpce-0a2dac27ac81e7d27-rf06a0rx.query-cell2.timestream.us-east-1.vpce.amazonaws.com`
       },
   // No VPC — Timestream query endpoint is public
     });

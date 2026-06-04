@@ -15,7 +15,7 @@ CYAN='\033[0;36m'
 BOLD='\033[1m'
 NC='\033[0m'
 
-API_URL="https://5fx0abwdp4.execute-api.us-east-1.amazonaws.com/prod/devices"
+API_URL="https://6at4q1i7og.execute-api.us-east-1.amazonaws.com/prod/devices"
 STACK_NAME="DeviceTelemetrySaasStack"
 REGION="us-east-1"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

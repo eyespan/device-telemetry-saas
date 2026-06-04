@@ -196,13 +196,13 @@ device-telemetry-saas/
 │   ├── authorizer/index.js           # JWT Lambda authorizer
 │   └── query/index.js                # GET /metrics Timestream query
 ├── frontend/
-│   └── index.html                    # Custom dashboard SPA
+|    ├── deploy-frontend.sh           # Frontend deploy
+│    └── index.html                    # Custom dashboard SPA
 ├── test
 |   └──scripts/
 │      ├── test-auth.sh                  # Auth test script
 │      ├── test-iot.py                   # IoT MQTT test
 │      ├── test-throttle.py              # Throttle test
-│      ├── deploy-frontend.sh            # Frontend deploy
 │      └── provision-grafana.py          # Grafana dashboard provisioner
 ├── package.json
 └── cdk.json
@@ -403,6 +403,8 @@ This is a single-page React application served via CloudFront and authenticated 
 | Metric Trends | Line chart with 1H/24H/7D toggle for temperature and humidity |
 | Device Registry | Table with last-seen status and metric chips |
 | Alert Log | CRITICAL/WARN entries for threshold breaches |
+
+![Alt Custom Dashboard](assets/Custom Dashboard.jpg)
 
 ### 7.2 Grafana Dashboard
 
