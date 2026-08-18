@@ -559,3 +559,66 @@ This deletes all resources, including DynamoDB data and Timestream metrics.
 aws ec2 describe-vpcs --filters Name=tag:Name,Values=DeviceTelemetrySaasStack/AppVpc
 aws ec2 delete-vpc --vpc-id <VPC_ID>
 ```
+
+---
+
+## Project Status
+
+This repository represents an **engineering portfolio and reference implementation** rather than a commercial product.
+
+The platform has been developed to demonstrate how a fully serverless, event-driven IoT and telemetry architecture can be built on AWS with dual ingestion paths, a shared processing pipeline, and both a custom dashboard and a Grafana-based observability layer.
+
+The project should not be interpreted as a guarantee that every component is production-ready for every workload. Production deployments should be independently assessed for security, reliability, scalability, cost, compliance, data protection, and operational requirements.
+
+---
+
+## Licence
+
+Copyright © 2026 Eyespan Limited
+
+Unless otherwise stated, the original source code and documentation in this repository are made available under the **MIT License**.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files, to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the software, subject to the conditions of the MIT License.
+
+The software is provided **"as is"**, without warranty of any kind, express or implied.
+
+See the [`LICENSE`](LICENSE) file for the complete licence text.
+
+### Third-Party Licences
+
+The MIT License applies only to original project material covered by this repository's licence.
+
+Third-party libraries, frameworks, models, datasets, images, documentation, and services remain subject to their respective licences and terms.
+
+Users of this project are responsible for reviewing and complying with those licences and terms.
+
+---
+
+## Disclaimer
+
+This project is provided for educational, demonstration, research, and engineering portfolio purposes.
+
+No guarantee is made regarding:
+
+- production suitability
+- security or compliance
+- availability
+- performance
+- scalability
+- AWS costs
+- third-party service availability
+- accuracy of dashboard or alerting output
+
+Always review and adapt the implementation to the requirements of your own environment before deploying it to production.
+
+---
+
+## Why This Project Exists
+
+The Device Telemetry SaaS Platform was created to demonstrate the engineering challenges involved in building a production-shaped IoT telemetry system on AWS, not just a proof-of-concept ingestion pipeline.
+
+The project focuses not only on getting device and API data into a store, but on the surrounding engineering disciplines required to operate an IoT/SaaS platform responsibly:
+
+**Ingestion → Authentication → Processing → Storage → Observability → Alerting → Security → Multi-Tenancy → Scaling**
+
+The repository therefore serves as both a working reference implementation and a record of the architectural decisions made across the ingestion, processing, and observability layers.
