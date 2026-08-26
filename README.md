@@ -16,6 +16,8 @@ The **Device Telemetry SaaS Platform** is a fully serverless, event-driven AWS a
 - A shared processing pipeline that stores data in DynamoDB and Amazon Timestream.
 - A custom dashboard and Grafana-based observability layer.
 
+**Repository:** https://github.com/eyespan/device-telemetry-saas
+
 ---
 
 ## Technology Stack
